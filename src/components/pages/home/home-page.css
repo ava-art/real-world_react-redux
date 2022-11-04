@@ -1,0 +1,16 @@
+.btn-like svg{
+  margin-right: 5px;
+}
+.tags-wrapper{
+  display: flex;
+  justify-content: space-between;
+}
+.nav-list_tag{
+display: none;
+}
+.nav-list_tag-active{
+  display: block
+}
+.favorit-active{
+  background-color: #449d44;
+}

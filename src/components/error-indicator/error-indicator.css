@@ -1,0 +1,14 @@
+.wrapper-error{
+    
+    
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    color: white;
+    font-size: 3rem;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    background-color: rgba(252, 86, 86, 0.952);
+    border-radius: 1rem;
+}

@@ -1,0 +1,48 @@
+
+
+const initialState = {
+  articlesList: [],
+  loading: true,
+  user: [],
+  loginIn: false,
+  tag: ''
+}
+
+const reduser = (state= initialState, action)=>{
+  switch(action.type){
+    case 'ARTICLES_LOADED':
+     return{
+      ...state,
+      articlesList: action.payload,
+      loading: false
+     }
+     case 'USER_ACTIVITED':
+     return{
+      ...state,
+      user: action.payload,
+      loginIn: true
+     }
+     case 'VIEW_ARTICLE_FOR_TAG':
+      return{
+        ...state,
+        articlesList: action.payload,
+        loading: false
+      }
+      case 'ON_LOADING':
+        return{
+          ...state,
+          loading: true
+        }
+      case 'UPDATE_ARTICLE_LIKE':
+        return{
+          ...state,
+          articlesList: action.payload
+        }
+
+        default:
+          return state
+        }
+      }
+      
+export default reduser
+
