@@ -40,8 +40,10 @@ const reduser = (state= initialState, action)=>{
          
         const newItem = articlesList.map(el => {
           if ( el.slug === newArticle.slug){
+            debugger
             el.likes = newArticle.likes
             el.following = newArticle.following
+            console.log();
           }
           return el
         })
