@@ -23,9 +23,15 @@ export default class ArticlesStoreServices {
     return res.articles.map(this._transformArticles)
   }
 
-  postFavorit = async (slug) =>{
+  getArticlesFeed = async () =>{
+    const res = await this.getContent(`/articles/feed`)
+    
+    return res.articles.map(this._transformArticles)
+  }
+
+  postFavorit = async (slug, method) =>{
     const res = await fetch(`https://api.realworld.io/api/articles/${slug}/favorite`, {
-      method: 'POST',
+      method,
       headers: {
           "Content-Type": "application/json",
           "accept": "application/json",

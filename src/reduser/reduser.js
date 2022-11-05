@@ -5,7 +5,8 @@ const initialState = {
   loading: true,
   user: [],
   loginIn: false,
-  tag: ''
+  tag: '',
+  tab: 'global',
 }
 
 const reduser = (state= initialState, action)=>{
@@ -14,7 +15,7 @@ const reduser = (state= initialState, action)=>{
      return{
       ...state,
       articlesList: action.payload,
-      loading: false
+      loading: false,
      }
      case 'USER_ACTIVITED':
      return{
@@ -40,18 +41,26 @@ const reduser = (state= initialState, action)=>{
          
         const newItem = articlesList.map(el => {
           if ( el.slug === newArticle.slug){
-            debugger
+            el.favorit = newArticle.favorit
             el.likes = newArticle.likes
             el.following = newArticle.following
-            console.log();
+            
           }
           return el
         })
-
         return{
           ...state,
           articlesList: newItem
         }
+
+        case 'UPDATE_TAB':
+          return{
+            ...state,
+            articlesList: action.payload,
+            loading: false,
+            tag: action.tag,
+            tab: action.tab,
+          }
 
         default:
           return state

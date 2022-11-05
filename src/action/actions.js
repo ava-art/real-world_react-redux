@@ -1,4 +1,4 @@
-const articlesLoaded = (newArticle) =>{
+const articlesLoaded = (newArticle,tag,tab) =>{
   return {
     type: 'ARTICLES_LOADED',
     payload: newArticle
@@ -23,12 +23,20 @@ const onLoading = (tagName) =>{
   }
 }
 const updateArticleLike = (newArticle, slug) =>{
-
   return{
     type: 'UPDATE_ARTICLE_LIKE',
     payload: newArticle,
     slug
   }
+}
+const updateTab = (newArticles, tab, tag) =>{
+  return{
+    type: 'UPDATE_TAB',
+    payload: newArticles,
+    tab,
+    tag
+  }
+
 }
 
 export {
@@ -36,5 +44,6 @@ export {
   userActivited,
   viewArticleForTag,
   onLoading,
-  updateArticleLike
+  updateArticleLike,
+  updateTab
 }

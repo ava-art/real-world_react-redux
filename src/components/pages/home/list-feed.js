@@ -1,23 +1,40 @@
 import {React, Fragment} from "react";
-import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-const ListFeed = ({loginIn, tag}) =>{
-let viewTag = 'nav-list_tag'
-  if (tag !== ''){
-    viewTag = 'nav-list_tag-active'
+import { connect } from "react-redux";
+
+import { updateTab, onLoading } from "../../../action/actions";
+import ArticlesStoreServices from "../../../services/articles-store-services";
+
+const ListFeed = ({loginIn, tag, tab, updateTab, onLoading}) =>{
+
+  const articlesStoreServices = new ArticlesStoreServices()
+
+  const getTabYour = () =>{
+    onLoading()
+    articlesStoreServices.getArticlesFeed()
+      .then(data =>{
+        return(
+          updateTab(data,'your','ddd')
+        )
+      })
   }
+
+  console.log( 'tag and Tab = ' + tag, tab)
+
   if (loginIn){
     return(
       <Fragment>
-              <li className="nav-item">
-                  <Link to="/" className="nav-link">Your Feed</Link>
+              <li className="nav-item" onClick={() => getTabYour()}>
+                  <Link to="" className={`nav-link ${(tab === 'your') ? 'active' : ''}`}>Your Feed</Link>
               </li>
               <li className="nav-item">
-                  <Link to="/" className="nav-link">Global Feed</Link>
+                  <Link to="" className={`nav-link ${(tab === 'global') ? 'active' : ''}`}>Global Feed</Link>
               </li>
-              <li className={`nav-item ${viewTag}`}>
-                  <span to="/" className="nav-link">{`#${tag}`}</span>
+              <li className={`nav-item ${(tab === 'tag' ? 'nav-list_tag-active' : 'nav-list_tag' )}`}>
+                <span className="nav-link active">
+                  {`#${tag}`}
+                </span>
               </li>
     </Fragment>
     )
@@ -25,8 +42,11 @@ let viewTag = 'nav-list_tag'
     return(
       <Fragment>
         <li className="nav-item">
-                  <a className="nav-link active" href="">Global Feed</a>
-              </li>
+          <Link to="" className="nav-link">Global Feed</Link>
+        </li>
+        <li className={`nav-item ${(tag !== '' ?'nav-list_tag-active' : 'nav-list_tag' )}`}>
+            <span className="nav-link">{`#${tag}`}</span>
+        </li>
       </Fragment>
     
   )
@@ -35,11 +55,19 @@ let viewTag = 'nav-list_tag'
   
 }
 
-const mapStateToProps = ({loginIn, tag}) =>{
+const mapStateToProps = ({articlesList,loginIn, tag, tab}) =>{
   return{
+    articlesList,
     loginIn,
-    tag
+    tag,
+    tab
+  }
+}
+const mapDispatchToProps= (dispatch) =>{
+  return{
+    onLoading: () => dispatch(onLoading()),
+    updateTab: (newArticle,tab, tag) => dispatch(updateTab(newArticle,tab, tag))
   }
 }
 
-export default connect(mapStateToProps)(ListFeed)
+export default connect(mapStateToProps,mapDispatchToProps)(ListFeed)

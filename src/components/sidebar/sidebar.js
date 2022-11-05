@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import BlogServicesApi from "../../services/blog-services";
 import Spinner from "../spinner/spinner";
 import { connect } from "react-redux";
-import {articlesLoaded, onLoading} from '../../action/actions'
+import {onLoading, updateTab} from '../../action/actions'
 
 class Sidebar extends Component{
 
@@ -25,7 +25,7 @@ class Sidebar extends Component{
 
     this.blogServiceApi.getAllArticles(tag)
       .then((data) => {
-        this.props.articlesLoaded(data)
+        this.props.updateTab(data,'tag',tag)
       })
 
     
@@ -60,13 +60,15 @@ class Sidebar extends Component{
 }
   }
 
-const mapStateToProps = () =>{
-  return
+const mapStateToProps = (loading) =>{
+  return{
+    loading
+  }
 }
 const mapDispatchToProps = (dispatch) =>{
   return{
     onLoading: () => dispatch(onLoading()),
-    articlesLoaded: (newArticles) => dispatch(articlesLoaded(newArticles))
+    updateTab: (newArticles, tag, tab) => dispatch(updateTab(newArticles, tag,tab))
   }
 }
   
