@@ -75,7 +75,14 @@ export default class BlogServicesApi {
   //  GET Article //
 
   getArticle = async (slug) =>{
-    const res = await fetch(`https://api.realworld.io/api/articles/${slug}`)
+    const res = await fetch(`https://api.realworld.io/api/articles/${slug}`,{
+      headers:{
+        'Content-Type': 'application/json; charset=utf-8',
+        "Authorization": 'Token ' + localStorage.getItem('jwt').match(/(["'])(.+?)\1/)[2]
+    }
+    }
+    
+    )
     return res
   }
 

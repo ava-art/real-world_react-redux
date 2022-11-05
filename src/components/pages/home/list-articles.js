@@ -39,17 +39,18 @@ onFavorit = (articlesList,slug) =>{
     this.props.articlesStoreServices.postFavorit(slug, method)
       .then(data => data.json())
         .then(article => {
+          const {slug, title, likes, favorit, createdAt, description, img, username, taglist, following, author} = article.article
           const newArticle = {
-            slug: article.article.slug,
-            title: article.article.title,
+            slug,
+            title,
             likes: article.article.favoritesCount,
             favorit: article.article.favorited,
-            createdAt: article.article.createdAt,
-            description: article.article.description,
-            img: article.article.author.image,
-            username: article.article.author.username,
+            createdAt,
+            description,
+            img: author.image,
+            username: author.username,
             taglist: article.article.tagList,
-            following: article.article.author.following
+            following: author.following
           }
           this.props.updateArticleLike(newArticle)
           
@@ -99,7 +100,7 @@ onFavorit = (articlesList,slug) =>{
                             {likes}
                           </button>
                       </div>
-                      <Link to={`/articles/${slug}`} className="preview-link">
+                      <Link to={`/articles/${slug}`} className="preview-link" id={slug}>
                           <h1>{title}</h1>
                           <p>{description}</p>
                       </Link>

@@ -19,16 +19,25 @@ const ListFeed = ({loginIn, tag, tab, updateTab, onLoading}) =>{
         )
       })
   }
-
-  console.log( 'tag and Tab = ' + tag, tab)
+    const getTabGlobal = () =>{
+      onLoading()
+    articlesStoreServices.getArticles()
+      .then(data =>{
+        return(
+          updateTab(data,'global','')
+        )
+      })
+    }
 
   if (loginIn){
     return(
       <Fragment>
-              <li className="nav-item" onClick={() => getTabYour()}>
+              <li className="nav-item" 
+                  onClick={() => getTabYour()}>
                   <Link to="" className={`nav-link ${(tab === 'your') ? 'active' : ''}`}>Your Feed</Link>
               </li>
-              <li className="nav-item">
+              <li className="nav-item" 
+                  onClick={() => getTabGlobal()}>
                   <Link to="" className={`nav-link ${(tab === 'global') ? 'active' : ''}`}>Global Feed</Link>
               </li>
               <li className={`nav-item ${(tab === 'tag' ? 'nav-list_tag-active' : 'nav-list_tag' )}`}>

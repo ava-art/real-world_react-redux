@@ -1,55 +1,42 @@
 import React from "react"
 import { Component } from "react"
 import { connect } from "react-redux"
+import { Link } from "react-router-dom"
 import BlogServicesApi from "../../../services/blog-services"
-
+import Spinner from "../../spinner/spinner"
+import './article.css'
 
 class ArticlePage extends Component {
 
-    state = {
-        author: {},
-        body : '',
-        createdAt: "" ,
-        description : "",
-        favorited : null,
-        favoritesCount : null,
-        slug : "",
-        tagList : [],
-        title : "",
-        updatedAt: ''
-    }
+    state = ''
 
     componentDidMount(){
-      const  blogServicesApi = new BlogServicesApi()
-      const url = String(window.location) 
-      const slug = url.substring(url.lastIndexOf('/') + 1);
-      
-        blogServicesApi.getArticle(slug)
-            .then(article => article.json())
-            .then((data) => {
-                
-               const {author,body ,createdAt ,description ,favorited ,favoritesCount ,slug ,tagList ,title ,updatedAt} = data.article
-                this.setState({
-                    author,
-                    body ,
-                    createdAt ,
-                    description ,
-                    favorited ,
-                    favoritesCount ,
-                    slug ,
-                    tagList ,
-                    title ,
-                    updatedAt
-                })
-                
-            })
 
-            
+if (this.state === ''){
+
+    const  blogServicesApi = new BlogServicesApi()
+    const url = String(window.location) 
+    const slug = url.substring(url.lastIndexOf('/') + 1);
+    
+      blogServicesApi.getArticle(slug)
+          .then(article => article.json())
+          .then((data) => {
+              this.setState({data})
+          })
+}
+
     }
 
     render(){
-        const {author,body ,createdAt ,description ,favorited ,favoritesCount ,slug ,tagList ,title ,updatedAt} = this.state
 
+        if (this.state === ''){
+            return(
+                <Spinner />
+            )
+         }
+
+        const {author,body ,createdAt ,favorited ,favoritesCount, tagList ,title ,updatedAt} = this.state.data.article
+       
         
         return(
 
@@ -61,22 +48,12 @@ class ArticlePage extends Component {
         <h1>{title}</h1>
 
         <div className="article-meta">
-            <a href=""><img src={author.image}/></a>
+            <Link to={`/`}><img src={author.image}/></Link>
             <div className="info">
-                <a href="" className="author">{author.username}</a>
+                <Link  to={`/@${author.username}`} className="author">{author.username}</Link>
                 <span className="date">{new Date(createdAt).toDateString()}</span>
             </div>
-            <button className="btn btn-sm btn-outline-secondary">
-                <i className="ion-plus-round"></i>
-                &nbsp;
-                Follow {author.username} <span className="counter">({favoritesCount})</span>
-            </button>
-            &nbsp;&nbsp;
-            {/* <button className="btn btn-sm btn-outline-primary">
-                <i className="ion-heart"></i>
-                &nbsp;
-                Favorite Post <span className="counter">(29)</span>
-            </button> */}
+            
         </div>
 
     </div>
@@ -95,27 +72,7 @@ class ArticlePage extends Component {
 
     <hr/>
 
-    <div className="article-actions">
-        <div className="article-meta">
-            <a href="profile.html"><img src="http://i.imgur.com/Qr71crq.jpg"/></a>
-            <div className="info">
-                <a href="" className="author">Eric Simons</a>
-                <span className="date">January 20th</span>
-            </div>
-
-            <button className="btn btn-sm btn-outline-secondary">
-                <i className="ion-plus-round"></i>
-                &nbsp;
-                Follow Eric Simons
-            </button>
-            &nbsp;
-            <button className="btn btn-sm btn-outline-primary">
-                <i className="ion-heart"></i>
-                &nbsp;
-                Favorite Post <span className="counter">(29)</span>
-            </button>
-        </div>
-    </div>
+    
 
     <div className="row">
 
