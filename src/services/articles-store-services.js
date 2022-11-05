@@ -5,7 +5,13 @@ export default class ArticlesStoreServices {
   _apiBase = 'https://api.realworld.io/api'
 
   async getContent(url){
-    const res = await fetch(`${this._apiBase}${url}`)
+    const res = await fetch(`${this._apiBase}${url}`,{
+    headers: {
+      "Content-Type": "application/json",
+      "accept": "application/json",
+      "Authorization": 'Token ' + localStorage.getItem('jwt').match(/(["'])(.+?)\1/)[2]
+    }
+  })
     if (!res.ok){
       throw new Error (`Ошибка в fetch по адресу ${url} статус ответа ${res.status}`)
     }

@@ -37,7 +37,7 @@ class Login extends Component {
 
         try {
             const data = await this.blogServicesApi.fetchDataLogin(user)
-debugger
+
             localStorage.setItem('jwt', JSON.stringify(data.user.token))
 
             this.props.userActivited(data)

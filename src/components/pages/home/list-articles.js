@@ -31,21 +31,19 @@ onFavorit = (slug) =>{
   articlesStoreServices.postFavorit(slug)
     .then(data => data.json())
       .then(article => {
-
         const newArticle = {
-          slug: article.slug,
-          title: article.title,
-          likes: article.favoritesCount,
-          favorit: article.favorited,
-          createdAt: article.createdAt,
-          description: article.description,
-          img: article.author.image,
-          username: article.author.username,
-          taglist: article.tagList,
-          following: article.author.following
+          slug: article.article.slug,
+          title: article.article.title,
+          likes: article.article.favoritesCount,
+          favorit: article.article.favorited,
+          createdAt: article.article.createdAt,
+          description: article.article.description,
+          img: article.article.author.image,
+          username: article.article.author.username,
+          taglist: article.article.tagList,
+          following: article.article.author.following
         }
-
-        this.props.updateArticleLike(newArticle)
+        this.props.updateArticleLike(newArticle, slug)
       })
 }
 

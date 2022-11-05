@@ -34,9 +34,21 @@ const reduser = (state= initialState, action)=>{
           loading: true
         }
       case 'UPDATE_ARTICLE_LIKE':
+          const {articlesList} = state
+          const newArticle = action.payload
+          console.log(action.payload);
+         
+        const newItem = articlesList.map(el => {
+          if ( el.slug === newArticle.slug){
+            el.likes = newArticle.likes
+            el.following = newArticle.following
+          }
+          return el
+        })
+
         return{
           ...state,
-          articlesList: action.payload
+          articlesList: newItem
         }
 
         default:

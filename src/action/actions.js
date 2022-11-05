@@ -22,10 +22,12 @@ const onLoading = (tagName) =>{
     tagName
   }
 }
-const updateArticleLike = (newArticle) =>{
+const updateArticleLike = (newArticle, slug) =>{
+
   return{
     type: 'UPDATE_ARTICLE_LIKE',
-    payload: newArticle
+    payload: newArticle,
+    slug
   }
 }
 
