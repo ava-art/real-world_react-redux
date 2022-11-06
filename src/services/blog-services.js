@@ -86,8 +86,8 @@ export default class BlogServicesApi {
     return res
   }
 
-  getAllArticles = async (nameTag) =>{
-    const res = await fetch(`https://api.realworld.io/api/articles?tag=${nameTag}&limit=20&offset=0`)
+  getAllArticles = async (name, searchIn) =>{
+    const res = await fetch(`https://api.realworld.io/api/articles?${searchIn}=${name}&limit=20&offset=0`)
         .then(data => data.json())
 
 

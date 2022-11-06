@@ -7,6 +7,7 @@ const initialState = {
   loginIn: false,
   tag: '',
   tab: 'global',
+  comments: []
 }
 
 const reduser = (state= initialState, action)=>{
@@ -60,6 +61,13 @@ const reduser = (state= initialState, action)=>{
             loading: false,
             tag: action.tag,
             tab: action.tab,
+          }
+
+        case 'COMMENTS_LOADED':
+          return{
+            ...state,
+            loading: false,
+            comments: action.payload
           }
 
         default:

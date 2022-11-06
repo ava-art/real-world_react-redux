@@ -23,7 +23,7 @@ class Sidebar extends Component{
 
     this.props.onLoading()
 
-    this.blogServiceApi.getAllArticles(tag)
+    this.blogServiceApi.getAllArticles(tag, 'tag')
       .then((data) => {
         this.props.updateTab(data,'tag',tag)
       })

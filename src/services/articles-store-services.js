@@ -28,18 +28,32 @@ export default class ArticlesStoreServices {
     
     return res.articles.map(this._transformArticles)
   }
-
+  
   postFavorit = async (slug, method) =>{
     const res = await fetch(`https://api.realworld.io/api/articles/${slug}/favorite`, {
       method,
       headers: {
-          "Content-Type": "application/json",
-          "accept": "application/json",
-          "Authorization": 'Token ' + localStorage.getItem('jwt').match(/(["'])(.+?)\1/)[2]
+        "Content-Type": "application/json",
+        "accept": "application/json",
+        "Authorization": 'Token ' + localStorage.getItem('jwt').match(/(["'])(.+?)\1/)[2]
       }
-  })
-
+    })
+    
     return res
+  }
+  
+  
+  getComments = async (slug) =>{
+ 
+    const res = await fetch(`https://api.realworld.io/api/articles/${slug}/comments`,{
+      headers: {
+        "Content-Type": "application/json",
+        "accept": "application/json",
+        "Authorization": 'Token ' + localStorage.getItem('jwt').match(/(["'])(.+?)\1/)[2]
+        
+      }
+    })
+    return res.json()
   }
 
   _transformArticles = (articles) =>{
@@ -60,7 +74,32 @@ export default class ArticlesStoreServices {
     }
   }
 
+  postComment = async (slug, request) =>{
+   
+    const body = JSON.stringify(request)
+    const res = await fetch(`https://api.realworld.io/api/articles/${slug}/comments`,{
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        "accept": "application/json",
+        "Authorization": 'Token ' + localStorage.getItem('jwt').match(/(["'])(.+?)\1/)[2]
+      },
+      body
+    })
+    
+    return res.json()
+  }
 
-
+  deleteComment = async (slug, id) =>{
+   
+    return await fetch(`https://api.realworld.io/api/articles/${slug}/comments/${id}`,{
+      method: 'DELETE',
+      headers: {
+        "Content-Type": "application/json",
+        "accept": "application/json",
+        "Authorization": 'Token ' + localStorage.getItem('jwt').match(/(["'])(.+?)\1/)[2]
+      }
+    })
+  }
   
 }

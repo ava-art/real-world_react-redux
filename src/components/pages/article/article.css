@@ -3,3 +3,19 @@
   background-color: #5cb85c;
   border-color: #5cb85c;
 }
+
+.card-footer {
+  display: flex;
+}
+.comment-form .card-footer{
+  display: block;
+}
+.date-posted {
+  margin-left: auto !important;
+}
+
+.comment-trash {
+  margin-left: auto;
+  border: none;
+  background: transparent;
+}

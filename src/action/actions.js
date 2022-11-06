@@ -38,6 +38,12 @@ const updateTab = (newArticles, tab, tag) =>{
   }
 
 }
+const commentsLoaded = (comments) =>{
+  return{
+    type: 'COMMENTS_LOADED',
+    payload: comments
+  }
+}
 
 export {
   articlesLoaded,
@@ -45,5 +51,6 @@ export {
   viewArticleForTag,
   onLoading,
   updateArticleLike,
-  updateTab
+  updateTab,
+  commentsLoaded
 }
