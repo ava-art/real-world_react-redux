@@ -1,64 +1,73 @@
-import React,{ Component } from "react";
-import BlogServicesApi from "../../../services/blog-services";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+
+import './profile.css'
+import { ListArticlesInProfileComponent } from "./list-articles-in-profile-component";
+
 import Spinner from "../../spinner/spinner";
-import { Link } from "react-router-dom";
 
+import { thunkGetArticlesInProfile } from "../../../thunks/thunkGetArticlesInProfile";
+import { thunkPostFavoritArticle } from "../../../thunks/thunkPostFavoritArticle";
 
-class ListArticlesInProfile extends Component{
+class ListArticlesInProfile extends Component {
 
-  state ={
-    listArticles: [],
-    loading: true,
-    tab: false
+  componentDidMount() {
+
+    const user = this.props.tabProfile.user
+    this.props.thunkGetArticlesInProfile(user, 'author', 'my')
   }
-componentDidMount(){
 
-  const blogServicesApi = new BlogServicesApi()
+  onTabFavoritArticles = () => {
+    const user = this.props.tabProfile.user
+    this.props.thunkGetArticlesInProfile(user, 'favorited', 'favorit')
+  }
+  onTabMyArticles = () => {
+    const url = String(window.location)
+    const user = url.substring(url.lastIndexOf('@') + 1);
+    this.props.thunkGetArticlesInProfile(user, 'author', 'my')
+  }
 
-  const data = blogServicesApi.getAllArticles(this.props.user, 'author')
-        .then(data => {
-          this.setState({
-                listArticles: data,
-                loading: false,
-                tab:false
-              })
-        })
+  onFavorit = (articlesList, slug) => {
 
-}
+    this.props.thunkPostFavoritArticle(articlesList, slug)
+  }
 
-  render(){
+  render() {
 
-const {loading, listArticles, tab} = this.state
-    if (loading){
-      <Spinner />
+    const { loading, tabProfile, articlesList } = this.props.loading
+
+    if (loading) {
+      return (
+        <Spinner />
+      )
     }
 
+    return (
 
-    return(
+      <ListArticlesInProfileComponent
+        articlesList={articlesList}
+        tabProfile={tabProfile}
+        onTabFavoritArticles={this.onTabFavoritArticles} 
+        onTabMyArticles={this.onTabMyArticles}
+        onFavorit={this.onFavorit}/>
 
-        <div className="container">
-          <div className="row">
-
-            <div className="col-xs-12 col-md-10 offset-md-1">
-                <div className="articles-toggle">
-                    <ul className="nav nav-pills outline-active">
-                        <li className="nav-item">
-                            <Link className={`nav-link ${(!tab)? 'active' : ' ' }`} >My Articles</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className={`nav-link ${(!tab)? '' : 'active' }`}>Favorited Articles</Link>
-                        </li>
-                    </ul>
-                </div>
-
-            
-            </div>
-        </div>
-    </div>
     )
   }
-
 }
 
+const mapState = (loading, tabProfile, user, articlesList) => {
+  return {
+    loading,
+    tabProfile,
+    user,
+    articlesList
+  }
+}
+const mapDispatch = (dispatch) => {
+  return {
+    thunkGetArticlesInProfile: (user, reqName, tabName) => dispatch(thunkGetArticlesInProfile(user, reqName, tabName)),
+    thunkPostFavoritArticle: (articlesList, slug) => dispatch(thunkPostFavoritArticle(articlesList, slug))
+  }
+}
 
-export default ListArticlesInProfile
+export default connect(mapState, mapDispatch)(ListArticlesInProfile)

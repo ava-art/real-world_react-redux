@@ -2,8 +2,6 @@ import { React, Fragment, useEffect} from 'react';
 import './app.css';
 import Header from '../header/header';
 import HomePage from '../pages/home/home-page';
-import {createStore, bindActionCreators} from 'redux'
-import reduser from "../../reduser/reduser";
 import Login from '../pages/loggin/login';
 import { Route, Routes } from 'react-router-dom';
 import Register from '../pages/register/register';
@@ -13,6 +11,9 @@ import { connect } from 'react-redux';
 import Profile from '../pages/profile/profile';
 import { userActivited } from '../../action/actions';
 import BlogServicesApi from '../../services/blog-services';
+import NewArticle from '../pages/new-article/new-article';
+import { hideLoading } from '../../action/actions';
+import EditorArticle from '../pages/editor-article/editor-article';
 
 const App = ( {userActivited}) =>{
 
@@ -28,6 +29,7 @@ const App = ( {userActivited}) =>{
 
 useEffect( authenticateUser, [])
 
+
   
   return(
     <Fragment>
@@ -39,6 +41,8 @@ useEffect( authenticateUser, [])
         <Route path="/articles/:article" element={<ArticlePage />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/@:username" element={<Profile />} />
+        <Route path="/new-article" element={<NewArticle />} />
+        <Route path="/editor/:article" element={<EditorArticle />} />
 
 
       </Routes>
@@ -54,6 +58,7 @@ const mapStateToProps = ({user}) =>{
 const mapDispatchToProps = (dispatch)=>{
   return{
     userActivited: (user) => dispatch(userActivited(user)),
+    hideLoading: () => dispatch(hideLoading())
     
   }
 }

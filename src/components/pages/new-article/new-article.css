@@ -1,0 +1,10 @@
+.apply-article {
+  color: green;
+  margin: 15px;
+  font-size: 18px;
+}
+.error-article{
+  color: red;
+  margin: 15px;
+  font-size: 18px;
+}

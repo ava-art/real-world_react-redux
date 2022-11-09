@@ -1,0 +1,14 @@
+.like-active {
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #5cb85c;
+}
+.like-active  svg path{
+  
+  fill: #fff;
+ 
+}
+
+.btn-outline-primary svg{
+  margin-right: 5px;
+}
